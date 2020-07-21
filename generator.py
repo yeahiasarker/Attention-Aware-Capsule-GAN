@@ -4,7 +4,7 @@ from keras.models import Sequential, Model
 from keras.layers.advanced_activations import LeakyReLU
 from keras.initializers import RandomNormal
 
-def build_generator(latent_dim):
+def generator_func(latent_dim):
     init = RandomNormal(stddev = 0.02)
     model = Sequential()
     n_nodes = 256 * 8 * 8

@@ -3,7 +3,7 @@ from keras import backend as k
 
 
 
-class SelfAttention(Layer):
+class self_attention(Layer):
 
     def __init__(self, ch, **kwargs):
         super(SelfAttention, self).__init__(**kwargs)
