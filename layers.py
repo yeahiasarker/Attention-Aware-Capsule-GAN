@@ -1,7 +1,11 @@
 
+from keras.layers import Layer
+from keras import backend as k
+
+
 class mini_batch_stdev(Layer):
 	def __init__(self, **kwargs):
-		super(MinibatchStdev, self).__init__(**kwargs)
+		super(mini_batch_stdev, self).__init__(**kwargs)
  
 	def call(self, inputs):
 		mean = k.mean(inputs, axis = 0, keepdims = True)
@@ -19,6 +23,7 @@ class mini_batch_stdev(Layer):
 		shape = k.shape(inputs)
 
 		output = k.tile(mean_pix, (shape[0], shape[1], shape[2], 1))
+
 		combined = k.concatenate([inputs, output], axis = -1)
 
 		return combined
@@ -35,7 +40,7 @@ class mini_batch_stdev(Layer):
 class pixel_normalization(Layer):
 
 	def __init__(self, **kwargs):
-		super(PixelNormalization, self).__init__(**kwargs)
+		super(pixel_normalization, self).__init__(**kwargs)
  
 	def call(self, inputs):
 
