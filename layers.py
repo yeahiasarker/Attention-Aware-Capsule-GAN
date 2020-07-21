@@ -1,4 +1,5 @@
-class MinibatchStdev(Layer):
+
+class mini_batch_stdev(Layer):
 	def __init__(self, **kwargs):
 		super(MinibatchStdev, self).__init__(**kwargs)
  
@@ -29,3 +30,26 @@ class MinibatchStdev(Layer):
 		input_shape[-1] += 1
 
 		return tuple(input_shape)
+
+
+class pixel_normalization(Layer):
+
+	def __init__(self, **kwargs):
+		super(PixelNormalization, self).__init__(**kwargs)
+ 
+	def call(self, inputs):
+
+		values = inputs**2.0
+
+		mean_values = k.mean(values, axis=-1, keepdims=True)
+
+		mean_values += 1.0e-8
+
+		l2 = k.sqrt(mean_values)
+
+		normalized = inputs / l2
+
+		return normalized
+ 
+	def compute_output_shape(self, input_shape):
+		return input_shape
