@@ -1,13 +1,15 @@
 from keras.layers import Layer, InputSpec
-from keras import backend as k
+from keras import backend as K
+from keras.initializers import RandomNormal
 
 
 
 class self_attention(Layer):
 
     def __init__(self, ch, **kwargs):
-        super(SelfAttention, self).__init__(**kwargs)
+        super(self_attention, self).__init__(**kwargs)
         self.channels = ch
+        self.init = RandomNormal(stddev = 0.02)
         self.filters_f_g = self.channels // 8
         self.filters_h = self.channels
 
@@ -15,21 +17,21 @@ class self_attention(Layer):
         kernel_shape_f_g = (1, 1) + (self.channels, self.filters_f_g)
         kernel_shape_h = (1, 1) + (self.channels, self.filters_h)
 
-        self.gamma = self.add_weight(name = 'gamma', shape = [1], initializer = init, trainable = True)
+        self.gamma = self.add_weight(name = 'gamma', shape = [1], initializer = self.init, trainable = True)
         self.kernel_f = self.add_weight(shape = kernel_shape_f_g,
-                                        initializer = init,
+                                        initializer = self.init,
                                         name = 'kernel_f',
                                         trainable = True)
         self.kernel_g = self.add_weight(shape=kernel_shape_f_g,
-                                        initializer = init,
+                                        initializer = self.init,
                                         name = 'kernel_g',
                                         trainable = True)
         self.kernel_h = self.add_weight(shape = kernel_shape_h,
-                                        initializer = init,
+                                        initializer = self.init,
                                         name = 'kernel_h',
                                         trainable = True)
 
-        super(SelfAttention, self).build(input_shape)
+        super(self_attention, self).build(input_shape)
         self.input_spec = InputSpec(ndim = 4,
                                     axes={3: input_shape[-1]})
         self.built = True
